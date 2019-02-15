@@ -55,7 +55,7 @@ internal class InMemoryFullTextSearchIndex<in Id : Comparable<Id>, Doc : Any>(
 
     private fun extractKeywords(text: String?): Set<Keyword> {
         text ?: return emptySet()
-        return Regex("[a-z0-9]+", RegexOption.IGNORE_CASE)
+        return Regex("""((?!\.\s)[\w(\.)])+""", RegexOption.IGNORE_CASE)
                 .findAll(text)
                 .filter { wordFilter(it.value) }
                 .map { Keyword(it.value.toLowerCase(), it.range) }
